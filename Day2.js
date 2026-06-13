@@ -92,6 +92,8 @@ console.log(typeof true);
 
 
 
+
+ console.log("----day 2 tasks----");
 // Tasks day 2
 
 const MyName="John Doe";
