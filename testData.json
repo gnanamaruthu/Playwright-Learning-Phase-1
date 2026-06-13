@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "username": "admin_user",
+    "password": "Admin@123",
+    "role": "admin",
+    "isActive": true,
+    "lastLogin": "2026-06-12"
+  },
+  {
+    "id": 2,
+    "username": "john_doe",
+    "password": "John@123",
+    "role": "user",
+    "isActive": true,
+    "lastLogin": "2026-06-10"
+  },
+  {
+    "id": 3,
+    "username": "sarah_smith",
+    "password": "Sarah@123",
+    "role": "user",
+    "isActive": false,
+    "lastLogin": "2026-05-28"
+  },
+  {
+    "id": 4,
+    "username": "qa_tester",
+    "password": "Qa@12345",
+    "role": "user",
+    "isActive": true,
+    "lastLogin": "2026-06-11"
+  },
+  {
+    "id": 5,
+    "username": "super_admin",
+    "password": "Super@123",
+    "role": "admin",
+    "isActive": true,
+    "lastLogin": "2026-06-13"
+  }
+]
