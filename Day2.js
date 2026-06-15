@@ -102,7 +102,7 @@ const isMarried=false;
 let MyAddress=null;
 let HeorShe=undefined;
 
-const user1 ={oneperson:"John Doe",age:30,};
+const user1 ={oneperson:"John Doe",age:30};
 
 const fruits2=["apple","banana","orange"];
 
@@ -120,8 +120,8 @@ console.log(typeof MyAge);
 console.log(typeof isMarried);  
 console.log(typeof MyAddress);
 console.log(typeof HeorShe);
-console.log(typeof user);
-console.log(typeof fruits);
+console.log(typeof user1);
+console.log(typeof fruits2);
 
 const Namme="John Doe";
 const MyAgee=30;

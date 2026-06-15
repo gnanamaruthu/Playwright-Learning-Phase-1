@@ -86,3 +86,88 @@ console.log(false + 1);  // 1     ← false = 0
 console.log(5 == "5");   // true  ← dangerous!
 console.log(5 === "5");  // false ← safe! checks type AND value
 
+#Day3 summary 
+
+Array creation 
+
+const browsers =["chrome","firfox","Edge"];
+const testScores =[85,45,44,95];
+const mixed=[1,"hello",true,null,{name:"test"}];
+
+
+// Access by index (starts at 0)
+
+
+console.log(browsers[0]); --> Chrome
+console.log(browsers[2]); -->Safari
+console.log(browsers[10]); -->undefined -index doesn't exist .
+
+
+Array length
+
+console.log(browsers.length);
+
+Array methods 
+
+const tests =["Login", "Logout", "Cart"];
+
+push- add to end
+
+test.push("checkout");
+
+pop - Remove from end 
+
+tests.pop();
+
+shift-Remove from the START
+
+tests.shift();
+
+unshift- Add to START
+
+tests.unshift("Home");
+
+includes - check if exists
+
+console.log(tests.include("login")); //false
+console.log(tests.include("cart"));  // true 
+
+indexOf - find position
+
+console.log(tests.indexOf("Logout"));  1
+console.log(tests.indexOf("Missing));  -1 (not found)
+
+
+Join -combine into string
+
+console.log(tests.join("->"));  //"Home->Logout->Cart"
+
+
+ForEach -Loop Through Arrays
+
+const browsers=["chrome","Firfox","Safari"];
+
+
+// forEach with function
+
+browsers.forEach(function(browser)){
+  console.log("testing on:", browser);
+
+}
+
+
+// forEach with arrow function  ( modern way)
+
+browsers.forEach(browser =>{
+
+  console.log("Testing on:", browser)
+});
+
+
+//forEach with index
+
+browsers.forEach((browser,index)=>{
+
+  console.log(`Browser ${index}: ${browser}`);
+
+});
