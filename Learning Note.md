@@ -171,3 +171,144 @@ browsers.forEach((browser,index)=>{
   console.log(`Browser ${index}: ${browser}`);
 
 });
+
+
+
+# Day 4 summary 
+
+Object the core of SDET 
+
+
+object creation 
+
+const testconfig ={
+
+  browser:"Chrome",
+  headless:false,
+  timeout:3000,
+  retries:2
+};
+
+
+// Access properties
+
+console.log(testconfig.browser);  // chrome
+console.log(testconfig["timeout"]);  //3000
+
+// add new property 
+
+testconfig.baseURL ="http://google.com";
+
+// update property 
+
+testconfig.browser="firefox" ; // chrome updated to firefox.
+
+// delete property 
+
+delete testconfig.retries;
+
+console.log(testconfig ); ///{ browser: 'firefox' , headless :'false' , timeout:3000}
+
+
+# Destructuring — Extract Values Cleanly
+
+destructuring from object
+
+const user ={
+  username:"admin",
+  password:"secret123",
+  admin:"admin",
+  email:"admin@gmail,com"
+}
+
+// Old way - verbose
+
+const username =  user.username;
+const role = user.admin;
+
+// Destructuring way - clean 
+
+const {username , role , email} = user;
+
+console.log(username); //admin
+console.log(email);  //admin@gmail.com
+
+//destructuring with rename
+
+const {username : userName , role = userRole } = user;
+
+console.log (userName); // admin
+
+// destructuing with default value
+
+const {username ,phone ="123456"} = user;
+
+console.log(phone);
+
+Array destructuring 
+
+const browser = ["chrome","firefox","edge"];
+
+console.log(browserr[0]) ;  // chrome
+
+console.log(browser[2]);   // edge
+
+
+const [fistbrowser , secondbrowser] = browser;
+
+console.log(firstbrowser);
+
+const [chrome,,safari]=browser;
+
+console.log(safari);
+
+# spread operator (...)-  Expand objects/arrays
+
+// Spread objects 
+
+const baseconfig=   {
+
+  browser:  "chrome",
+  headless:true,
+  timeout:3000
+}
+
+
+const prodconfig={
+  ...baseconfig,  // copy all properties
+  headless:false, // override headless
+  timeout:6000     //override timeout
+
+}
+
+
+console.log(prodconfig);
+
+// spread arrays
+
+const arr1=[1,2,3];
+
+const arr2=[4,5,6];
+
+const combained =[...arr1, ...arr2];  // [1,2,3,4,5,6 ]
+
+// copy array (doesn't affect original)
+
+const original = ["chrom","firefox"];
+
+const copy =[...original];
+
+copy.push("safari");
+
+console.log(original); // ["chrome","firefox"]
+
+console.log(copy);  // ["chrome","firefox","safari"]
+
+
+
+
+
+
+
+
+
