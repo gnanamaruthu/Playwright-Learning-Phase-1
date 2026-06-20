@@ -307,8 +307,157 @@ console.log(copy);  // ["chrome","firefox","safari"]
 
 
 
+# Day 5 summary 
+
+Regular Function 
+
+  // basic function
+
+  function greet(name){
+
+    return `hello, ${name}!`;
+  }
+
+console.log ( greet("Maruthu")); // hello ,maruthu!
+
+   // function with multiple parameters 
+
+   function login ( username , password ){
+
+    console.log(`logging in as  ${username}`);;
+
+    return {username , token :"xyz123"};
+
+   }
+
+   // Function with default parameters
+function runTest(testName, timeout = 30000) {
+  console.log(`Running ${testName} with timeout ${timeout}ms`);
+}
+
+runTest("Login Test");              // uses default timeout 30000
+runTest("Login Test", 45000);       // overrides default  45000
 
 
 
+Arrow function -> modern way 
 
+// Arrow function syntax 
+
+const add = (a,b) => a+b;
+
+console.log(add(3,5));  // 8
+
+// Arrow function with block body 
+
+const multiply =(a,b ) => {
+
+  const result =a* b ;
+
+  retrun result ;
+
+
+}
+
+// Arrow function with one parameter ( parentheses optional)
+
+
+const double = num => num *2;
+
+console.log(double(5));
+
+
+// Arrow Function with no parameters 
+
+const getTimesstamp =() => Date.now();
+
+console.log(getTimesstamp());
+
+
+
+// Arrow  testconfig = {
+    
+    name: "Login Test" ,
+
+    run : (browser)=> {
+
+      console.log(`Runing on ${browser}');
+    }
+}
+
+
+ testconfig.run("chorme");  // Running on chrome .
+
+
+  Higher-Order Functions & Callbacks
+
+  // Function that takes another function as parameter
+
+function executTest (testName, callBack)
+{
+
+  console.log(`Starting: ${testName}`);
+
+  callback();  // execute the callback
+
+  console.log(`Finish : ${testName});
+
+
+   
+}
+
+
+// pass a function as callback 
+
+executeTest("Login Test" , ()=> {
+
+  console.log("Test logic here");
+});
+
+
+
+// callback with parameters
+
+  function processTestResult (results, processFunction){
+    results.forEach(result =>{
+
+      processFunction(result);
+    })
+  }
+
+
+const testResults =[
+
+  {name :"Login",passed:true},
+  {name:"Logout",passed:false},
+  {name:"cart",passed:true}
+];
+
+processTestResult(testResults, (result)=>{
+
+   console.log(`${result.name}: ${result.passed ? "✅ PASSED" : "❌ FAILED"}`);
+});
+
+ Rest Parameters (...) — Accept Multiple Arguments
+
+ // Rest parameter collects remaining arguments into array
+function runMultipleTests(...testNames) {
+  console.log(`Running ${testNames.length} tests`);
+  testNames.forEach(name => console.log(`- ${name}`));
+}
+
+runMultipleTests("Login", "Logout", "Cart", "Checkout");
+// Running 4 tests
+// - Login
+// - Logout
+// - Cart
+// - Checkout
+
+// Mix regular and rest parameters
+function generateReport(title, ...results) {
+  console.log(`Report: ${title}`);
+  console.log(`Total results: ${results.length}`);
+}
+
+generateReport("E2E Report", "passed", "failed", "pending");
 
