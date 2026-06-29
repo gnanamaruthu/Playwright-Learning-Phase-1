@@ -146,3 +146,184 @@ css locator
 2. #username 
 3. [type="submit"]
 4. [xpath=//button]
+
+
+# Day 9
+
+1️⃣ Locator Strategies — Deep Dive
+
+const { test, expect } = require('@playwright/test');
+
+test('Locator strategies', async ({ page }) => {
+  await page.goto('https://saucedemo.com');
+  
+  // ✅ BEST - Semantic/Accessible locators
+  await page.getByRole('button', { name: 'Login' });
+  await page.getByRole('textbox', { name: 'Username' });
+  await page.getByLabel('Password');
+  await page.getByPlaceholder('Enter password');
+  await page.getByText('Swag Labs');
+  
+  // ⚠️ OK - CSS selectors (but fragile)
+  await page.locator('#user-name');
+  await page.locator('.login-button');
+  await page.locator('[data-testid="submit"]');
+  
+  // ❌ LAST RESORT - XPath (very slow)
+  await page.locator('xpath=//button[text()="Login"]');
+});
+
+Locator Priority:
+
+getByRole — Best, semantic, accessible
+getByLabel, getByText, getByPlaceholder — Good
+CSS selectors — OK but breaks if HTML changes
+XPath — Avoid, slow and brittle
+
+
+
+2️⃣ Waiting & Timeouts
+
+
+test('Waiting for elements', async ({ page }) => {
+  await page.goto('https://saucedemo.com');
+  
+  // Playwright waits automatically (up to 30 seconds default)
+  // No need for sleep() or manual waits
+  
+  // Fill waits for element to be ready
+  await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
+  
+  // Click waits for element to be clickable
+  await page.getByRole('button', { name: 'Login' }).click();
+  
+  // Assert waits for condition (30 seconds default)
+  await expect(page).toHaveURL('/inventory.html');
+  
+  // Custom timeout if needed
+  await expect(page.locator('.success-message')).toBeVisible({ timeout: 5000 });
+});
+
+
+Never use:
+
+// ❌ BAD - creates flaky tests
+await page.waitForTimeout(2000);  // hardcoded wait
+
+
+3️⃣ Handling Multiple Elements  
+
+test('Working with multiple elements', async ({ page }) => {
+  await page.goto('https://saucedemo.com/inventory.html');
+  
+  // Get all products
+  const products = page.locator('.inventory_item');
+  
+  // Count them
+  const count = await products.count();
+  console.log(`Found ${count} products`);
+  
+  // Get first product
+  const firstProduct = products.first();
+  
+  // Get last product
+  const lastProduct = products.last();
+  
+  // Get nth product (index 0-based)
+  const secondProduct = products.nth(1);
+  
+  // Loop through all
+  for (let i = 0; i < count; i++) {
+    const product = products.nth(i);
+    const name = await product.locator('.inventory_item_name').textContent();
+    console.log(`Product ${i + 1}: ${name}`);
+  }
+});
+
+
+4️⃣ Error Handling & Validation
+
+test('Error handling in tests', async ({ page }) => {
+  await page.goto('https://saucedemo.com');
+  
+  // Fill with wrong credentials
+  await page.getByRole('textbox', { name: 'Username' }).fill('invalid_user');
+  await page.getByRole('textbox', { name: 'Password' }).fill('wrong_pass');
+  await page.getByRole('button', { name: 'Login' }).click();
+  
+  // Assert error appears
+  const errorMessage = page.locator('[data-test="error"]');
+  await expect(errorMessage).toBeVisible();
+  await expect(errorMessage).toContainText('Epic sadface');
+  
+  // Try again with correct credentials
+  await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
+  await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+  await page.getByRole('button', { name: 'Login' }).click();
+  
+  // Assert success
+  await expect(page).toHaveURL('/inventory.html');
+});
+
+
+
+5️⃣ Advanced Assertions
+
+test('Assertions - comprehensive', async ({ page }) => {
+  await page.goto('https://saucedemo.com/inventory.html');
+  
+  // Element existence and visibility
+  await expect(page.locator('.inventory_list')).toBeVisible();
+  await expect(page.locator('.nonexistent')).not.toBeVisible();
+  
+  // Text assertions
+  await expect(page.locator('h2')).toHaveText('Products');
+  await expect(page.locator('h2')).toContainText('Product');
+  
+  // URL assertions
+  await expect(page).toHaveURL('https://saucedemo.com/inventory.html');
+  await expect(page).toHaveURL(/inventory/);  // regex
+  
+  // Attribute assertions
+  const button = page.getByRole('button', { name: 'Add to cart' }).first();
+  await expect(button).toHaveAttribute('id', /btn_add_to_cart_sauce-labs-backpack/);
+  
+  // Count assertions
+  const products = page.locator('.inventory_item');
+  await expect(products).toHaveCount(6);
+  
+  // Class assertions
+  await expect(button).toHaveClass(/btn/);
+  
+  // Disabled/Enabled
+  await expect(page.getByRole('button', { name: 'Disabled Button' })).toBeDisabled();
+});
+
+
+
+  6️⃣ Test Data & Variables
+
+  test('Using test data', async ({ page }) => {
+  const testData = {
+    username: 'standard_user',
+    password: 'secret_sauce',
+    invalidUsername: 'invalid_user',
+    invalidPassword: 'wrong_pass'
+  };
+  
+  // Login with valid data
+  await page.goto('https://saucedemo.com');
+  await page.getByRole('textbox', { name: 'Username' }).fill(testData.username);
+  await page.getByRole('textbox', { name: 'Password' }).fill(testData.password);
+  await page.getByRole('button', { name: 'Login' }).click();
+  
+  // Verify landing page
+  await expect(page).toHaveURL('/inventory.html');
+  
+  // Logout
+  await page.getByRole('button', { name: 'Open Menu' }).click();
+  await page.getByRole('menuitem', { name: 'Logout' }).click();
+  
+  // Verify back to login
+  await expect(page).toHaveURL('https://saucedemo.com/');
+});
