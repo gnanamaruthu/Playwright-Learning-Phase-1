@@ -327,3 +327,170 @@ test('Assertions - comprehensive', async ({ page }) => {
   // Verify back to login
   await expect(page).toHaveURL('https://saucedemo.com/');
 });
+
+# Day 10 
+
+Page Object Model
+
+What is POM?
+POM separates test logic from page interaction. Instead of:
+
+// ❌ BAD - Test logic mixed with page interaction
+test('Login', async ({ page }) => {
+  await page.goto('https://saucedemo.com');
+  await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
+  await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+  await page.getByRole('button', { name: 'Login' }).click();
+  await expect(page).toHaveURL('/inventory.html');
+});
+
+
+You create reusable page classes:
+// ✅ GOOD - Separated concerns
+class LoginPage {
+  constructor(page) {
+    this.page = page;
+    this.usernameField = page.getByRole('textbox', { name: 'Username' });
+    this.passwordField = page.getByRole('textbox', { name: 'Password' });
+    this.loginButton = page.getByRole('button', { name: 'Login' });
+  }
+
+  async goto() {
+    await this.page.goto('https://saucedemo.com');
+  }
+
+  async login(username, password) {
+    await this.usernameField.fill(username);
+    await this.passwordField.fill(password);
+    await this.loginButton.click();
+  }
+}
+
+// Test is now clean
+test('Login', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
+  await expect(page).toHaveURL('/inventory.html');
+});
+
+Benefits of POM
+
+Maintainability — Change locator once, all tests updated
+Reusability — Use same methods across multiple tests
+Readability — Test logic is clear, not buried in locators
+Scalability — Easy to add new pages and methods
+
+Structure Example
+
+project/
+├── pages/
+│   ├── LoginPage.js
+│   ├── InventoryPage.js
+│   └── CartPage.js
+├── tests/
+│   ├── login.test.js
+│   ├── shopping.test.js
+│   └── checkout.test.js
+└── playwright.config.js
+
+
+
+LoginPage.js Example
+
+class LoginPage {
+  constructor(page) {
+    this.page = page;
+    this.baseURL = 'https://www.saucedemo.com/';
+    
+    // Locators
+    this.usernameField = page.getByRole('textbox', { name: 'Username' });
+    this.passwordField = page.getByRole('textbox', { name: 'Password' });
+    this.loginButton = page.getByRole('button', { name: 'Login' });
+    this.errorMessage = page.locator('[data-test="error"]');
+  }
+
+  async goto() {
+    await this.page.goto(this.baseURL);
+  }
+
+  async login(username, password) {
+    await this.usernameField.fill(username);
+    await this.passwordField.fill(password);
+    await this.loginButton.click();
+  }
+
+  async getErrorMessage() {
+    return await this.errorMessage.textContent();
+  }
+
+  async isErrorVisible() {
+    return await this.errorMessage.isVisible();
+  }
+}
+
+module.exports = LoginPage;
+
+class InventoryPage {
+  constructor(page) {
+    this.page = page;
+    this.baseURL = 'https://www.saucedemo.com/inventory.html';
+    
+    // Locators
+    this.products = page.locator('.inventory_item');
+    this.productNames = page.locator('.inventory_item_name');
+    this.addToCartButtons = page.getByRole('button', { name: /Add to cart/ });
+    this.cartBadge = page.locator('.shopping_cart_badge');
+    this.sortDropdown = page.locator('[data-test="product_sort_container"]');
+  }
+
+  async goto() {
+    await this.page.goto(this.baseURL);
+  }
+
+  async getProductCount() {
+    return await this.products.count();
+  }
+
+  async getProductName(index) {
+    return await this.productNames.nth(index).textContent();
+  }
+
+  async addToCart(index) {
+    await this.addToCartButtons.nth(index).click();
+  }
+
+  async getCartCount() {
+    return await this.cartBadge.textContent();
+  }
+
+  async sortBy(value) {
+    await this.sortDropdown.selectOption(value);
+  }
+}
+
+module.exports = InventoryPage;
+
+const { test, expect } = require('@playwright/test');
+const LoginPage = require('../pages/LoginPage');
+const InventoryPage = require('../pages/InventoryPage');
+
+test('Login and add products to cart', async ({ page }) => {
+  // Login
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
+
+  // Verify login successful
+  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+
+  // Shop
+  const inventoryPage = new InventoryPage(page);
+  const count = await inventoryPage.getProductCount();
+  expect(count).toBe(6);
+
+  await inventoryPage.addToCart(0); // Add first product
+  await inventoryPage.addToCart(1); // Add second product
+  await expect(page.locator('.shopping_cart_badge')).toHaveText('2');
+});
+
