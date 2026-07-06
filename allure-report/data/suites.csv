@@ -1,0 +1,3 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","8382","Login on staging environment","","2026-07-06","passed","2026-07-06","Login Functionality","Day13.test.js","",""
+"","5398","Login on production environment","","2026-07-06","passed","2026-07-06","Login Functionality","Day13.test.js","",""
