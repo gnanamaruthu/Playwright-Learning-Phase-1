@@ -1,0 +1,1072 @@
+===========================================
+Task 1: Understand Database Structure
+===========================================
+
+1. What is MySQL?
+
+MySQL is an open-source Relational Database Management System (RDBMS) used to store, manage, 
+and retrieve data using SQL (Structured Query Language). 
+It is widely used in web applications because it is fast, reliable, and easy to learn.
+
+Examples:
+- Shopify
+- WordPress
+- YouTube (early versions)
+- Facebook (early versions)
+
+--------------------------------------------------
+
+2. What is PostgreSQL?
+
+PostgreSQL is an open-source Relational Database Management System (RDBMS) 
+known for its advanced features, reliability, security, and support for complex applications. 
+It is commonly used in enterprise-level systems.
+
+Examples:
+- Instagram
+- Spotify
+- Reddit
+- Apple (some services)
+
+--------------------------------------------------
+
+3. MySQL vs PostgreSQL
+
+MySQL
+- Easy to learn
+- Fast for web applications
+- Widely used in e-commerce websites
+- Popular among beginners
+
+PostgreSQL
+- Advanced database features
+- Better for large enterprise applications
+- Excellent support for complex queries
+- High reliability and data integrity
+
+--------------------------------------------------
+
+4. Database Structure
+
+Database
+│
+├── Table
+│     ├── Rows
+│     └── Columns
+│
+├── Table
+│
+└── Table
+
+Example
+
+Company Database
+
+├── Users
+├── Products
+├── Orders
+
+--------------------------------------------------
+
+5. What is a Table?
+
+Definition:
+A table is a collection of related data organized into rows and columns.
+
+Example:
+
+Users Table
+
++--------+---------+-------------------+
+| UserID | Name    | Email             |
++--------+---------+-------------------+
+| 1      | John    | john@gmail.com    |
+| 2      | Alice   | alice@gmail.com   |
++--------+---------+-------------------+
+
+--------------------------------------------------
+
+6. What is a Row?
+
+Definition:
+A row is a single record in a table.
+
+Example:
+
+1 | John | john@gmail.com
+
+This represents one user's information.
+
+--------------------------------------------------
+
+7. What is a Column?
+
+Definition:
+A column is a field that stores one type of information for all records.
+
+Example:
+
+UserID
+Name
+Email
+
+Each column stores a specific type of data.
+
+--------------------------------------------------
+
+8. What is a Primary Key?
+
+Definition:
+A Primary Key is a column that uniquely identifies each record in a table.
+
+Rules:
+- Must contain unique values
+- Cannot contain NULL values
+- Each table should have only one Primary Key
+
+Example
+
+Users Table
+
++--------+---------+
+| UserID | Name    |
++--------+---------+
+| 1      | John    |
+| 2      | Alice   |
+| 3      | David   |
++--------+---------+
+
+Here,
+UserID is the Primary Key because every user has a unique ID.
+
+--------------------------------------------------
+
+9. Visual Representation
+
+                    Users Table
+
++--------+---------+-------------------+
+| UserID | Name    | Email             |
++--------+---------+-------------------+
+| 1      | John    | john@gmail.com    | ← Row
+| 2      | Alice   | alice@gmail.com   | ← Row
+| 3      | David   | david@gmail.com   | ← Row
++--------+---------+-------------------+
+     ▲        ▲             ▲
+   Column   Column       Column
+
+
+
+===========================================
+Task 2
+Learn Basic SQL Commands
+===========================================
+
+SQL (Structured Query Language) is used to communicate with a database.
+
+The four basic SQL commands are:
+
+1. SELECT
+2. INSERT
+3. UPDATE
+4. DELETE
+
+----------------------------------------
+1. SELECT
+----------------------------------------
+
+Purpose:
+Used to read or retrieve data from a table.
+
+Syntax:
+
+SELECT * FROM Users;
+
+Example:
+
+SELECT * FROM Users;
+
+Output:
+
+UserID   Name     Email
+1        John     john@gmail.com
+2        Alice    alice@gmail.com
+
+----------------------------------------
+2. INSERT
+----------------------------------------
+
+Purpose:
+Used to insert new records into a table.
+
+Syntax:
+
+INSERT INTO Users(UserID,Name,Email)
+VALUES(3,'David','david@gmail.com');
+
+----------------------------------------
+3. UPDATE
+----------------------------------------
+
+Purpose:
+Used to modify existing data.
+
+Syntax:
+
+UPDATE Users
+SET Email='john123@gmail.com'
+WHERE UserID=1;
+
+----------------------------------------
+4. DELETE
+----------------------------------------
+
+Purpose:
+Used to remove records from a table.
+
+Syntax:
+
+DELETE FROM Users
+WHERE UserID=3;
+
+----------------------------------------
+5 Example SQL Queries
+----------------------------------------
+
+Example 1
+
+SELECT * FROM Users;
+
+Purpose:
+Display all users.
+
+----------------------------------------
+
+Example 2
+
+SELECT Name,Email
+FROM Users;
+
+Purpose:
+Display only Name and Email columns.
+
+----------------------------------------
+
+Example 3
+
+INSERT INTO Users(UserID,Name,Email)
+VALUES(4,'Rahul','rahul@gmail.com');
+
+Purpose:
+Insert a new user.
+
+----------------------------------------
+
+Example 4
+
+UPDATE Users
+SET Name='Maruthu'
+WHERE UserID=2;
+
+Purpose:
+Update an existing user's name.
+
+----------------------------------------
+
+Example 5
+
+DELETE FROM Users
+WHERE UserID=4;
+
+Purpose:
+Delete a user record.
+
+----------------------------------------
+
+CRUD Operations
+
+Create → INSERT
+
+Read → SELECT
+
+Update → UPDATE
+
+Delete → DELETE
+
+
+
+===========================================
+Task 3
+Create Sample Database Schema
+===========================================
+
+Application:
+E-Commerce Website
+
+The application contains three tables.
+
+------------------------------------------------
+Table 1 : Users
+------------------------------------------------
+
+Table Name
+
+Users
+
+Columns
+
+UserID          INT             PRIMARY KEY
+
+Name            VARCHAR(100)
+
+Email           VARCHAR(100)
+
+Phone           VARCHAR(20)
+
+CreatedDate     DATE
+
+------------------------------------------------
+Table 2 : Products
+------------------------------------------------
+
+Table Name
+
+Products
+
+Columns
+
+ProductID       INT             PRIMARY KEY
+
+ProductName     VARCHAR(100)
+
+Category        VARCHAR(50)
+
+Price           DECIMAL(10,2)
+
+Stock           INT
+
+------------------------------------------------
+Table 3 : Orders
+------------------------------------------------
+
+Table Name
+
+Orders
+
+Columns
+
+OrderID         INT             PRIMARY KEY
+
+UserID          INT             FOREIGN KEY
+
+ProductID       INT             FOREIGN KEY
+
+Quantity        INT
+
+OrderDate       DATE
+
+TotalAmount     DECIMAL(10,2)
+
+------------------------------------------------
+
+Schema Diagram
+
+                Users
+
+          UserID (PK)
+
+               │
+
+               │
+
+               ▼
+
+              Orders
+
+     OrderID (PK)
+
+     UserID (FK)
+
+     ProductID (FK)
+
+               ▲
+
+               │
+
+               │
+
+            Products
+
+         ProductID (PK)
+
+------------------------------------------------
+
+SQL Script
+
+CREATE TABLE Users(
+
+UserID INT PRIMARY KEY,
+
+Name VARCHAR(100),
+
+Email VARCHAR(100),
+
+Phone VARCHAR(20),
+
+CreatedDate DATE
+
+);
+
+CREATE TABLE Products(
+
+ProductID INT PRIMARY KEY,
+
+ProductName VARCHAR(100),
+
+Category VARCHAR(50),
+
+Price DECIMAL(10,2),
+
+Stock INT
+
+);
+
+CREATE TABLE Orders(
+
+OrderID INT PRIMARY KEY,
+
+UserID INT,
+
+ProductID INT,
+
+Quantity INT,
+
+OrderDate DATE,
+
+TotalAmount DECIMAL(10,2),
+
+FOREIGN KEY(UserID)
+
+REFERENCES Users(UserID),
+
+FOREIGN KEY(ProductID)
+
+REFERENCES Products(ProductID)
+
+);
+
+
+
+===========================================
+Task 4
+Write SQL Query Examples
+===========================================
+
+1. Get All Users
+
+Query
+
+SELECT *
+FROM Users;
+
+Purpose
+
+Displays all users stored in the Users table.
+
+------------------------------------------------
+
+2. Get One User by ID
+
+Query
+
+SELECT *
+FROM Users
+WHERE UserID = 1;
+
+Purpose
+
+Displays information for the user whose UserID is 1.
+
+------------------------------------------------
+
+3. Count Total Products
+
+Query
+
+SELECT COUNT(*) AS TotalProducts
+FROM Products;
+
+Purpose
+
+Counts the total number of products available in the Products table.
+
+------------------------------------------------
+
+4. Get Orders From Last 7 Days
+
+(MySQL)
+
+SELECT *
+FROM Orders
+WHERE OrderDate >= CURDATE() - INTERVAL 7 DAY;
+
+Purpose
+
+Displays all orders placed within the last seven days.
+
+------------------------------------------------
+
+5. Find High Value Customers
+
+SELECT
+UserID,
+SUM(TotalAmount) AS TotalSpent
+FROM Orders
+GROUP BY UserID
+HAVING SUM(TotalAmount) > 10000;
+
+Purpose
+
+Displays customers whose total purchase amount is greater than ₹10,000.
+
+
+
+===========================================
+Task 5
+Understand Relationships
+===========================================
+
+Primary Key
+
+Definition
+
+A Primary Key uniquely identifies every record in a table.
+
+Properties
+
+• Unique
+
+• Cannot be NULL
+
+• One Primary Key per table
+
+Example
+
+Users
+
+--------------------------------
+
+UserID (PK)
+
+Name
+
+Email
+
+--------------------------------
+
+1
+
+John
+
+john@gmail.com
+
+2
+
+Alice
+
+alice@gmail.com
+
+------------------------------------------------
+
+Foreign Key
+
+Definition
+
+A Foreign Key is a column that references the Primary Key of another table.
+
+It creates a relationship between two tables.
+
+------------------------------------------------
+
+Example
+
+Users Table
+
+UserID (PK)
+
+↓
+
+Orders Table
+
+UserID (FK)
+
+------------------------------------------------
+
+Users Table
+
++---------------------------+
+
+| UserID | Name |
+
++---------------------------+
+
+| 1 | John |
+
+| 2 | Alice |
+
+| 3 | David |
+
++---------------------------+
+
+------------------------------------------------
+
+Orders Table
+
++-------------------------------------------+
+
+| OrderID | UserID | Product |
+
++-------------------------------------------+
+
+|1001 |1 |Laptop |
+
+|1002 |1 |Keyboard|
+
+|1003 |2 |Mouse |
+
++-------------------------------------------+
+
+------------------------------------------------
+
+How Tables Connect
+
+Users.UserID
+
+↓
+
+Orders.UserID
+
+John (UserID = 1)
+
+↓
+
+Laptop
+
+Keyboard
+
+Alice (UserID = 2)
+
+↓
+
+Mouse
+
+David (UserID = 3)
+
+↓
+
+No Orders
+
+------------------------------------------------
+
+Relationship Type
+
+Users
+
+1
+
+↓
+
+Many
+
+Orders
+
+This is called
+
+ONE TO MANY Relationship
+
+------------------------------------------------
+
+SQL Example
+
+SELECT
+
+Users.Name,
+
+Orders.Product,
+
+Orders.TotalAmount
+
+FROM Users
+
+INNER JOIN Orders
+
+ON Users.UserID = Orders.UserID;
+
+
+
+
+===========================================
+Task 6
+Database Summary
+===========================================
+
+What is a Database?
+
+A database is an organized collection of data used to store, manage, and retrieve information efficiently.
+
+Examples
+
+• Users
+
+• Products
+
+• Orders
+
+• Payments
+
+------------------------------------------------
+
+Why Test Databases?
+
+Database testing ensures that the application stores and retrieves correct data.
+
+Benefits
+
+✔ Verify data after UI actions
+
+✔ Validate API responses
+
+✔ Check data integrity
+
+✔ Verify backend calculations
+
+✔ Find missing records
+
+✔ Find duplicate records
+
+✔ Validate business rules
+
+------------------------------------------------
+
+Basic SQL Commands
+
+SELECT
+
+Used to retrieve data.
+
+Example
+
+SELECT * FROM Users;
+
+------------------------------------------------
+
+INSERT
+
+Used to insert new data.
+
+Example
+
+INSERT INTO Users
+VALUES(1,'John','john@gmail.com');
+
+------------------------------------------------
+
+UPDATE
+
+Used to modify existing data.
+
+Example
+
+UPDATE Users
+SET Name='Maruthu'
+WHERE UserID=1;
+
+------------------------------------------------
+
+DELETE
+
+Used to remove data.
+
+Example
+
+DELETE FROM Users
+WHERE UserID=1;
+
+------------------------------------------------
+
+CRUD
+
+Create
+
+↓
+
+INSERT
+
+Read
+
+↓
+
+SELECT
+
+Update
+
+↓
+
+UPDATE
+
+Delete
+
+↓
+
+DELETE
+
+------------------------------------------------
+
+Real SDET Scenarios
+
+Scenario 1
+
+User Registration
+
+UI
+
+User clicks Register
+
+Database Validation
+
+SELECT *
+FROM Users
+WHERE Email='john@gmail.com';
+
+Expected
+
+User record exists.
+
+------------------------------------------------
+
+Scenario 2
+
+Login Testing
+
+Verify user exists before login.
+
+SELECT *
+FROM Users
+WHERE Username='john';
+
+------------------------------------------------
+
+Scenario 3
+
+Order Placement
+
+Verify order is saved.
+
+SELECT *
+FROM Orders
+WHERE UserID=1;
+
+------------------------------------------------
+
+Scenario 4
+
+Payment Testing
+
+Verify payment details.
+
+SELECT *
+FROM Payments
+WHERE OrderID=1001;
+
+------------------------------------------------
+
+Scenario 5
+
+Inventory Validation
+
+Verify stock is reduced after purchase.
+
+SELECT Quantity
+FROM Products
+WHERE ProductID=101;
+
+------------------------------------------------
+
+Scenario 6
+
+API Testing
+
+POST /users
+
+↓
+
+Verify Database
+
+SELECT *
+FROM Users
+WHERE Email='john@gmail.com';
+
+------------------------------------------------
+
+Scenario 7
+
+UI Validation
+
+Order Status
+
+↓
+
+Delivered
+
+↓
+
+Verify Database
+
+SELECT Status
+FROM Orders
+WHERE OrderID=1001;
+
+
+
+
+
+
+-- Example 1: SELECT (Get all users)
+SELECT * FROM Users;
+
+-- Example 2: INSERT (Add a new user)
+INSERT INTO Users (UserID, Name, Email)
+VALUES (1, 'John', 'john@gmail.com');
+
+-- Example 3: UPDATE (Update user's email)
+UPDATE Users
+SET Email = 'john123@gmail.com'
+WHERE UserID = 1;
+
+-- Example 4: DELETE (Delete a user)
+DELETE FROM Users
+WHERE UserID = 1;
+
+-- Example 5: SELECT with WHERE (Get one user by ID)
+SELECT *
+FROM Users
+WHERE UserID = 1;
+
+
+
+Application Name: E-Commerce System
+
+-----------------------------------------
+Table 1 : Users
+-----------------------------------------
+
+Column Name        Data Type
+
+UserID             INT (Primary Key)
+Name               VARCHAR(100)
+Email              VARCHAR(100)
+Phone              VARCHAR(20)
+CreatedDate        DATE
+
+-----------------------------------------
+Table 2 : Products
+-----------------------------------------
+
+Column Name        Data Type
+
+ProductID          INT (Primary Key)
+ProductName        VARCHAR(100)
+Category           VARCHAR(50)
+Price              DECIMAL(10,2)
+Stock              INT
+
+-----------------------------------------
+Table 3 : Orders
+-----------------------------------------
+
+Column Name        Data Type
+
+OrderID            INT (Primary Key)
+UserID             INT (Foreign Key)
+ProductID          INT (Foreign Key)
+Quantity           INT
+OrderDate          DATE
+TotalAmount        DECIMAL(10,2)
+
+CREATE TABLE Users(
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    CreatedDate DATE
+);
+
+CREATE TABLE Products(
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    Price DECIMAL(10,2),
+    Stock INT
+);
+
+CREATE TABLE Orders(
+    OrderID INT PRIMARY KEY,
+    UserID INT,
+    ProductID INT,
+    Quantity INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10,2),
+
+    FOREIGN KEY(UserID)
+    REFERENCES Users(UserID),
+
+    FOREIGN KEY(ProductID)
+    REFERENCES Products(ProductID)
+);
+
+
+Task 3  
+
+Users Table
+
++--------+--------+
+|UserID  | Name   |
++--------+--------+
+|1       | John   |
+|2       | Alice  |
++--------+--------+
+
+Primary Key = UserID
+
+
+Orders Table
+
++---------+--------+----------+
+|OrderID  |UserID  | Product  |
++---------+--------+----------+
+|1001     |1       | Laptop   |
+|1002     |1       | Mouse    |
+|1003     |2       | Keyboard |
++---------+--------+----------+
+
+Foreign Key = UserID
+
+
+Users Table
+
+UserID (Primary Key)
+        │
+        │
+        ▼
+Orders Table
+
+UserID (Foreign Key)
+
+
+SELECT
+    Users.Name,
+    Orders.ProductID,
+    Orders.TotalAmount
+FROM Users
+INNER JOIN Orders
+ON Users.UserID = Orders.UserID;
