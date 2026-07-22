@@ -6,10 +6,10 @@ const mysql = require('mysql2/promise');
 test('Create and verify user ', async ({ request }) => {
 
     const connection = await mysql.createConnection({
-       host: '127.0.0.1',
-        user: 'root',
-        password: 'MaruthuSql',
-        database: 'Learning'
+       host: '',
+        user: '',
+        password: '',
+        database: ''
     })
 
 
@@ -43,10 +43,10 @@ test('Create and verify user ', async ({ request }) => {
 test('Update and verify user', async ({ request }) => {
 
     const connection = await mysql.createConnection({
-       host: '127.0.0.1',
-        user: 'root',
-        password: 'MaruthuSql',
-        database: 'Learning'
+        host: '',
+        user: '',
+        password: '',
+        database: ''
     })
 
     const userdata = await request.put('http://localhost:3000/users/1', {
@@ -78,10 +78,10 @@ test('Delete and verify user', async ({ request }) => {
 
     
     const connection = await mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: 'MaruthuSql',
-        database: 'Learning'
+        host: '',
+        user: '',
+        password: '',
+        database: ''
     })
 
     const createResponse = await request.post('http://localhost:3000/users', {
@@ -118,10 +118,10 @@ await connection.end();
 test('Count verification' , async ({ request }) => {
 
     const connection = await mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: 'MaruthuSql',
-        database: 'Learning'
+         host: '',
+        user: '',
+        password: '',
+        database: ''
     });
 
     const suffix = Date.now();
@@ -170,10 +170,10 @@ test('Count verification' , async ({ request }) => {
 test('Relationship verification' , async({request}) => {
 
   const connection=await mysql.createConnection({
-       host: '127.0.0.1',
-        user: 'root',
-        password: 'MaruthuSql',
-        database: 'Learning'
+       host: '',
+        user: '',
+        password: '',
+        database: ''
     });
 
     const userResponse = await request.post('http://localhost:3000/users', {
